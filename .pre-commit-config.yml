@@ -1,0 +1,45 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0  # Use the latest stable version
+    hooks:
+    -   id: trailing-whitespace
+        stages: [commit]
+        exclude: 'tests/conftest.py'
+    -   id: check-yaml
+        stages: [commit]
+        exclude: 'tests/conftest.py'
+    -   id: check-added-large-files
+        stages: [commit]
+        exclude: 'tests/conftest.py'
+    - id: commit-msg
+        name: Check commit message format
+        entry: 'git commit -m "my commit message"'
+        language: python
+        types: [commit-msg]
+        args: ['-m', '^((feat|fix|chore|refactor|test|docs|build): )?(.*)$']
+
+-   repo: https://github.com/psf/black
+    rev: 24.8.0  # Use the latest stable version
+    hooks:
+    -   id: black
+        stages: [commit]
+        exclude: 'tests/conftest.py'
+
+-   repo: local
+    hooks:
+      - id: pytest-check
+        name: pytest-check
+        entry: pytest --cache-clear
+        language: system
+        pass_filenames: false
+        always_run: true
+        args: ["./tests"]
+
+-   repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+    -   id: detect-secrets
+        stages: [commit]
+        exclude: package.lock.json
+
+
